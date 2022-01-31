@@ -4,17 +4,17 @@ insert into Object (parent_id, name, date) values
 (1,second_account,2007-04-04,account),
 (0,second_user,2009-09-09,user),
 (2,third_account,2010-12-12,account),
-(2,fourth_accountr,2012-06-06,account)
+(2,fourth_account,2012-06-06,account)
 
 ----------------------------------------
 
 INSERT INTO Attribute( name) VALUES
 (balance),
-draft),
+(draft),
 (password),
-operation),
-sum),
-currency)
+(operation),
+(sum),
+(currency)
 	
 ----------------------------------------
 
