@@ -37,4 +37,8 @@ public class User extends BasicEntity {
                 ", date=" + date +
                 '}';
     }
+
+    public User(Integer id) {
+        super(id);
+    }
 }

@@ -17,4 +17,8 @@ public class BasicEntity {
     public int getId() {
         return id;
     }
+
+    public BasicEntity(int id) {
+        this.id = id;
+    }
 }

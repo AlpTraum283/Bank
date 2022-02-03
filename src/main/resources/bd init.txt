@@ -5,7 +5,7 @@ Object table:
 	CREATE TABLE IF NOT EXISTS Object(
 
 	    obj_id serial NOT NULL,
-	    parent_id integer DEFAULT 0,
+	    owner integer DEFAULT 0,
 	    name character varying  NOT NULL,
 	    date date NOT NULL,
 	    type character varying NOT NULL,

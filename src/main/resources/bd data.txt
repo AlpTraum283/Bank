@@ -1,4 +1,4 @@
-insert into Object (parent_id, name, date, type) values
+insert into Object (owner, name, date, type) values
 (0,first_user,2020-03-02,user),
 (1,first_account,2006-03-23,account),
 (1,second_account,2007-04-04,account),

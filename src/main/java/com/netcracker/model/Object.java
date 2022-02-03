@@ -15,7 +15,7 @@ public class Object {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer obj_id;
 
-    private Integer parent_id;
+    private Integer owner;
 
     private String name;
 
@@ -29,8 +29,8 @@ public class Object {
         return obj_id;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getOwner() {
+        return owner;
     }
 
     public String getName() {

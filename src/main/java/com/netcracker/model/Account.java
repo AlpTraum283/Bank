@@ -9,7 +9,7 @@ public class Account extends BasicEntity{
 
     private int owner;
 
-    private Date date_of_open;
+    private Date date;
 
     @Attribute(value = 6)
     private String currency;
@@ -24,8 +24,8 @@ public class Account extends BasicEntity{
         this.owner = owner;
     }
 
-    public void setDate_of_open(Date date_of_open) {
-        this.date_of_open = date_of_open;
+    public void setDate_of_open(Date date) {
+        this.date = date;
     }
 
     public void setCurrency(String currency) {
@@ -45,10 +45,14 @@ public class Account extends BasicEntity{
         return "Account{" +
                 "id=" + super.getId() +
                 ", owner=" + owner +
-                ", date_of_open=" + date_of_open +
+                ", date=" + date +
                 ", currency='" + currency + '\'' +
                 ", balance=" + balance +
                 ", draft=" + draft +
                 '}';
+    }
+
+    public Account(Integer id) {
+        super(id);
     }
 }

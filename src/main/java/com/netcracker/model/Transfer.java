@@ -7,8 +7,7 @@ import java.util.Date;
 
 public class Transfer extends BasicEntity {
 
-
-    private int sender;
+    private int owner;
 
     @Attribute(value = 8)
     private int recipient;
@@ -21,8 +20,8 @@ public class Transfer extends BasicEntity {
     @Attribute(value = 5)
     private long sum;
 
-    public void setSender(int sender) {
-        this.sender = sender;
+    public void setSender(int owner) {
+        this.owner = owner;
     }
 
     public void setRecipient(int recipient) {
@@ -45,11 +44,15 @@ public class Transfer extends BasicEntity {
     public String toString() {
         return "Transfer{" +
                 "id=" + super.getId() +
-                ", sender=" + sender +
+                ", owner=" + owner +
                 ", recipient=" + recipient +
                 ", operation='" + operation + '\'' +
                 ", date=" + date +
                 ", sum=" + sum +
                 '}';
+    }
+
+    public Transfer(Integer id) {
+        super(id);
     }
 }
