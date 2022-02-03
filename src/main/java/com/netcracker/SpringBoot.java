@@ -1,19 +1,20 @@
 package com.netcracker;
 
+import com.netcracker.model.Account;
+import com.netcracker.model.Transfer;
 import com.netcracker.model.User;
-import com.netcracker.service.UserService;
+import com.netcracker.service.EntityProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
-
 @SpringBootApplication
 public class SpringBoot implements CommandLineRunner {
 
     @Autowired
-    UserService userService;
+    EntityProcessorService service;
+
     public static void main(String[] args) {
         SpringApplication.run(SpringBoot.class);
 
@@ -21,13 +22,12 @@ public class SpringBoot implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
-
-        List<User> userList= userService.userSelection();
-        for (User user: userList) {
-            System.out.println(user.toString());
-        }
-        System.out.println("--------------");
-
+    public void run(String... args) throws IllegalAccessException {
+        service.getEntityById(User.class, 1);
+        service.getEntityById(User.class, 2);
+        service.getEntityById(Account.class, 3);
+        service.getEntityById(Account.class, 80);
+        service.getEntityById(Transfer.class,7);
+        service.getEntityById(Transfer.class,5);
     }
 }

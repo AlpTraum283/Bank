@@ -1,10 +1,11 @@
-insert into Object (parent_id, name, date) values
+insert into Object (parent_id, name, date, type) values
 (0,first_user,2020-03-02,user),
 (1,first_account,2006-03-23,account),
 (1,second_account,2007-04-04,account),
 (0,second_user,2009-09-09,user),
 (2,third_account,2010-12-12,account),
-(2,fourth_account,2012-06-06,account)
+(2,fourth_account,2012-06-06,account),
+(2,first_transfer,2015-09-07,transfer)
 
 ----------------------------------------
 
@@ -14,8 +15,10 @@ INSERT INTO Attribute( name) VALUES
 (password),
 (operation),
 (sum),
-(currency)
-	
+(currency),
+(sender),
+(recipient)
+
 ----------------------------------------
 
 INSERT INTO Parameter(obj_id, attr_id, value) VALUES
@@ -32,4 +35,8 @@ INSERT INTO Parameter(obj_id, attr_id, value) VALUES
 (5,	6,	"EUR"),
 (6,	1,	"8457"),
 (6,	2,	"2345"),
-(6,	6,	"ILS")
+(6,	6,	"ILS"),
+(7,	4,	"Payment"),
+(7,	5,	"800"),
+(7,	7,	"2"),
+(7,	8,	"3")
