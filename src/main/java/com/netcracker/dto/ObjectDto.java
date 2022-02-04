@@ -1,4 +1,4 @@
-package com.netcracker.model;
+package com.netcracker.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,11 +9,12 @@ import java.util.Date;
 @Entity
 @Table(name = "object")
 @Data
-public class Object {
+public class ObjectDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer obj_id;
+    @Column(name = "obj_id")
+    private Integer objId;
 
     private Integer owner;
 
@@ -24,9 +25,8 @@ public class Object {
 
     private String type;
 
-
-    public Integer getObj_id() {
-        return obj_id;
+    public Integer getObjId() {
+        return objId;
     }
 
     public Integer getOwner() {

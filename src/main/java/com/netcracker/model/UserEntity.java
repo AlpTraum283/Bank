@@ -6,7 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 
-public class User extends BasicEntity {
+public class UserEntity extends BasicEntity {
+
+    private int owner;
 
     private String name;
 
@@ -30,15 +32,16 @@ public class User extends BasicEntity {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + super.getId() + '\'' +
+        return "UserEntity{" +
+                "id='" + super.getObjId() + '\'' +
+                ", owner='" + owner + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", date=" + date +
                 '}';
     }
 
-    public User(Integer id) {
+    public UserEntity(Integer id) {
         super(id);
     }
 }

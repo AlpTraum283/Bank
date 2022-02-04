@@ -1,33 +1,18 @@
-BD init:
-
-Object table:
-
-	CREATE TABLE IF NOT EXISTS Object(
-
-	    obj_id serial NOT NULL,
+CREATE TABLE IF NOT EXISTS object(obj_id serial NOT NULL,
 	    owner integer DEFAULT 0,
 	    name character varying  NOT NULL,
 	    date date NOT NULL,
 	    type character varying NOT NULL,
 	    CONSTRAINT "Object_pkey" PRIMARY KEY (obj_id)
-	)
-
--------------------
-
-Attribute table: 
+	);
 	
-	CREATE TABLE IF NOT EXISTS Attribute(
+	CREATE TABLE IF NOT EXISTS attribute(
     id serial NOT NULL,
     name character varying NOT NULL,
     CONSTRAINT "Attribute_pkey" PRIMARY KEY (id)
-)
+);
 
-
-
--------------------
-
-Parameter table:
-	CREATE TABLE IF NOT EXISTS Parameter(
+	CREATE TABLE IF NOT EXISTS parameterDto(
     obj_id integer NOT NULL,
     attr_id integer NOT NULL,
     value character varying NOT NULL,
@@ -42,6 +27,4 @@ Parameter table:
         ON UPDATE CASCADE
         ON DELETE CASCADE
         NOT VALID
-)
-
-
+);

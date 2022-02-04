@@ -5,9 +5,11 @@ import com.netcracker.annotation.Attribute;
 
 import java.util.Date;
 
-public class Account extends BasicEntity{
+public class AccountEntity extends BasicEntity{
 
     private int owner;
+
+    private String name;
 
     private Date date;
 
@@ -43,7 +45,7 @@ public class Account extends BasicEntity{
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + super.getId() +
+                "id=" + super.getObjId() +
                 ", owner=" + owner +
                 ", date=" + date +
                 ", currency='" + currency + '\'' +
@@ -52,7 +54,7 @@ public class Account extends BasicEntity{
                 '}';
     }
 
-    public Account(Integer id) {
+    public AccountEntity(Integer id) {
         super(id);
     }
 }

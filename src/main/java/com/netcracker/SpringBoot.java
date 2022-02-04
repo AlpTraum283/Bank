@@ -1,8 +1,8 @@
 package com.netcracker;
 
-import com.netcracker.model.Account;
-import com.netcracker.model.Transfer;
-import com.netcracker.model.User;
+import com.netcracker.model.AccountEntity;
+import com.netcracker.model.TransferEntity;
+import com.netcracker.model.UserEntity;
 import com.netcracker.service.EntityProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,13 +27,13 @@ public class SpringBoot implements CommandLineRunner {
     public void run(String... args) {
 
         try {
-            service.getEntityById(User.class, 1);
-            service.getEntityById(User.class, 2);
-            service.getEntityById(Account.class, 3);
-            service.getEntityById(Account.class, 80);
-            service.getEntityById(Transfer.class, 7);
-            service.getEntityById(Transfer.class, 5);
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+            service.getEntityById(UserEntity.class, 1);
+            service.getEntityById(UserEntity.class, 2);
+            service.getEntityById(AccountEntity.class, 3);
+            service.getEntityById(AccountEntity.class, 80);
+            service.getEntityById(TransferEntity.class, 7);
+            service.getEntityById(TransferEntity.class, 5);
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException | NoSuchFieldException e) {
             e.printStackTrace();
         }
 

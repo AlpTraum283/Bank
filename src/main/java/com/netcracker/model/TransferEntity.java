@@ -5,9 +5,11 @@ import com.netcracker.annotation.Attribute;
 import java.util.Date;
 
 
-public class Transfer extends BasicEntity {
+public class TransferEntity extends BasicEntity {
 
     private int owner;
+
+    private String name;
 
     @Attribute(value = 8)
     private int recipient;
@@ -43,7 +45,7 @@ public class Transfer extends BasicEntity {
     @Override
     public String toString() {
         return "Transfer{" +
-                "id=" + super.getId() +
+                "id=" + super.getObjId() +
                 ", owner=" + owner +
                 ", recipient=" + recipient +
                 ", operation='" + operation + '\'' +
@@ -52,7 +54,7 @@ public class Transfer extends BasicEntity {
                 '}';
     }
 
-    public Transfer(Integer id) {
+    public TransferEntity(Integer id) {
         super(id);
     }
 }
