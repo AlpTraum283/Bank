@@ -21,14 +21,4 @@ public class Constants {
 
     public static final int RECIPIENT_ATTRIBUTE_ID = 8;
 
-    public static final Map<String, Integer> constMap = new HashMap<>() {{
-        put("currency", CURRENCY_ATTRIBUTE_ID);
-        put("balance", BALANCE_ATTRIBUTE_ID);
-        put("sender", SENDER_ATTRIBUTE_ID);
-        put("recipient", RECIPIENT_ATTRIBUTE_ID);
-        put("password", PASSWORD_ATTRIBUTE_ID);
-        put("draft", DRAFT_ATTRIBUTE_ID);
-        put("sum", SUM_ATTRIBUTE_ID);
-        put("operation", OPERATION_ATTRIBUTE_ID);
-    }};
 }

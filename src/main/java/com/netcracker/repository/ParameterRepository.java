@@ -11,5 +11,5 @@ import java.util.List;
 public interface ParameterRepository extends JpaRepository<ParameterDto, CompositeId> {
 
     @Query(value = "Select * from parameter where obj_id=:id", nativeQuery = true)
-    List<ParameterDto> findByObj_id(@Param("id") Integer id);
+    List<ParameterDto> findByObjId(@Param("id") Integer id);
 }

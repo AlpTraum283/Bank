@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ObjectRepository extends JpaRepository<ObjectDto, Integer> {
 
     @Query(value = "select * from object where obj_id=:id and type=:type", nativeQuery = true)
-    ObjectDto findByObj_id(@Param("id") Integer id, @Param("type") String type);
+    ObjectDto findByObjId(@Param("id") Integer id, @Param("type") String type);
 
 
 }
