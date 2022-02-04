@@ -24,7 +24,7 @@ public class EntityProcessorService<T> {
     private T obj;
 
 
-    public T getEntityById(Class<? super BasicEntity> clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+    public <T extends BasicEntity> T getEntityById(Class clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
 
         ObjectDto objectDtoList = objectRepository.findByObjId(id, clazz.getSimpleName().toLowerCase());
         List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(id);
@@ -32,32 +32,29 @@ public class EntityProcessorService<T> {
         if (objectDtoList != null && parameterDtoList != null) {
             T obj = (T) clazz.getDeclaredConstructor(Integer.class).newInstance(id);
 
-            Field fieldObjId = obj.getClass().getSuperclass().getDeclaredField("objId");
-            fieldObjId.setAccessible(true);
-            fieldObjId.set(obj, objectDtoList.getObjId());
-
-            Field fieldName = obj.getClass().getDeclaredField("name");
-            fieldName.setAccessible(true);
-            fieldName.set(obj, objectDtoList.getName());
-
-            Field fieldDate = obj.getClass().getDeclaredField("date");
-            fieldDate.setAccessible(true);
-            fieldDate.set(obj, objectDtoList.getDate());
-
-            Field fieldOwner = obj.getClass().getDeclaredField("owner");
-            fieldOwner.setAccessible(true);
-            fieldOwner.set(obj, objectDtoList.getOwner());
+            for (Field field : obj.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                for (Field field2 : objectDtoList.getClass().getDeclaredFields()) {
+                    field2.setAccessible(true);
+                    if (field.getName().equals(field2.getName())) {
+                        field.set(obj, field2.get(objectDtoList));
+                    }
+                }
+            }
 
             for (Field field : obj.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
+
 //                System.out.println("field name = " + field.getName());
 
                 if (field.isAnnotationPresent(Attribute.class)) {
 //                  todo: работаем с данными из таблицы Parameter
+
+                    Attribute attribute = field.getAnnotation(Attribute.class);
+                    int attrValue = attribute.value();
+
                     for (ParameterDto parameterDto : parameterDtoList) {
 //                        System.out.println("Parameter = " + parameter);
-                        Attribute attribute = field.getAnnotation(Attribute.class);
-                        int attrValue = attribute.value();
 
                         if (attrValue == parameterDto.getAttrId()) {
                             System.out.println("Equal field = " + field.getType().getSimpleName());
@@ -80,7 +77,6 @@ public class EntityProcessorService<T> {
         } else {
             System.err.println("Object does not found. Type = " + clazz.getSimpleName() + ", id = " + id);
         }
-
         return null;
     }
 
