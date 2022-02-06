@@ -1,5 +1,8 @@
 package com.netcracker.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +12,7 @@ import java.util.Date;
 public class BasicEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "obj_id")
     private int objId;
 
@@ -24,8 +27,7 @@ public class BasicEntity {
     public BasicEntity() {
     }
 
-    public BasicEntity(int objId, int owner, String name, Date date, String type) {
-        this.objId = objId;
+    public BasicEntity(int owner, String name, Date date, String type) {
         this.owner = owner;
         this.name = name;
         this.date = date;

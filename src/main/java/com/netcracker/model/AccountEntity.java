@@ -32,8 +32,8 @@ public class AccountEntity extends BasicEntity{
     public AccountEntity() {
     }
 
-    public AccountEntity(int objId, int owner, String name, Date date, String type, String currency, long balance, long draft) {
-        super(objId, owner, name, date, type);
+    public AccountEntity(int owner, String name, Date date, String type, String currency, long balance, long draft) {
+        super(owner, name, date, type);
         this.currency = currency;
         this.balance = balance;
         this.draft = draft;

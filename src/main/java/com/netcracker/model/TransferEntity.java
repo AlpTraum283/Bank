@@ -49,8 +49,8 @@ public class TransferEntity extends BasicEntity {
     public TransferEntity() {
     }
 
-    public TransferEntity(int objId, int owner, String name, Date date, String type, int recipient, String operation, long sum) {
-        super(objId, owner, name, date, type);
+    public TransferEntity(int owner, String name, Date date, String type, int recipient, String operation, long sum) {
+        super(owner, name, date, type);
         this.sender = owner;
         this.recipient = recipient;
         this.operation = operation;

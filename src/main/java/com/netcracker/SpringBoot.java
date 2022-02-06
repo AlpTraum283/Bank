@@ -30,14 +30,14 @@ public class SpringBoot implements CommandLineRunner {
     public void run(String... args) {
 
         try {
-            service.getEntityById(UserEntity.class, 1);
-            service.getEntityById(AccountEntity.class, 3);
-            service.getEntityById(TransferEntity.class, 7);
+//            service.getEntityById(UserEntity.class, 1);
+//            service.getEntityById(AccountEntity.class, 3);
+//            service.getEntityById(TransferEntity.class, 7);
 
-            service.saveEntity(new UserEntity(11,0, "SavingUserOne", new Date(), OBJECT_TYPE_USER, "savingUserPassword"));
-            service.saveEntity(new TransferEntity(11,8, "SavingTransfer", new Date(), OBJECT_TYPE_TRANSFER, 4, "Transfer", 600L));
-            service.saveEntity(new AccountEntity(11,8,"savingAccount",new Date(), OBJECT_TYPE_ACCOUNT, "RUB",800L, 0L));
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException | NoSuchFieldException e) {
+            service.saveEntity(new UserEntity(0, "SavingUser88", new Date(), OBJECT_TYPE_USER, "savingUserPassword"));
+            service.saveEntity(new TransferEntity(8, "SavingTransfer88", new Date(), OBJECT_TYPE_TRANSFER, 4, "Transfer", 600L));
+            service.saveEntity(new AccountEntity(8,"savingAccount88",new Date(), OBJECT_TYPE_ACCOUNT, "RUB",800L, 0L));
+        } catch (IllegalAccessException /*| InstantiationException | NoSuchMethodException | InvocationTargetException | NoSuchFieldException*/ e) {
             e.printStackTrace();
         }
 

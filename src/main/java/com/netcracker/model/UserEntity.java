@@ -26,8 +26,8 @@ public class UserEntity extends BasicEntity {
     public UserEntity() {
     }
 
-    public UserEntity(int objId, int owner, String name, Date date, String type, String password) {
-        super(objId, owner, name, date, type);
+    public UserEntity(int owner, String name, Date date, String type, String password) {
+        super(owner, name, date, type);
         this.password = password;
     }
 }

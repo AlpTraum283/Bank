@@ -1,6 +1,7 @@
 package com.netcracker.dto;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -65,12 +66,11 @@ public class ObjectDto {
         this.type = type;
     }
 
-    public ObjectDto(Integer objId, Integer owner, String name, Date date, String type) {
+    public ObjectDto(Integer owner, String name, Date date, String type) {
         this.owner = owner;
         this.name = name;
         this.date = date;
         this.type = type;
-        this.objId = objId;
     }
 
     public ObjectDto() {

@@ -31,7 +31,7 @@ public class EntityProcessorService<T> {
         List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(id);
 
         if (objectDtoList != null && parameterDtoList != null) {
-            T obj = (T) clazz.getDeclaredConstructor(Integer.class).newInstance(id);
+            T obj = (T) clazz.getDeclaredConstructor().newInstance();
 
             for (Field field : obj.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
@@ -95,13 +95,16 @@ public class EntityProcessorService<T> {
         objectDto.setOwner(entity.getOwner());
         objectDto.setType(entity.getType());
 
+        System.out.println("Before save " + objectDto.toString());
+        ObjectDto objectId = objectRepository.save(objectDto);
+        System.out.println("After save " + objectId.toString());
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Attribute.class)) {
                 Attribute attribute = field.getAnnotation(Attribute.class);
 //                todo: разбиваем поля на обьекты ParameterDto, вместе с id обьекта, атрибута и значением поля
                 ParameterDto parameterDto = new ParameterDto(
-                        entity.getObjId(),
+                        objectId.getObjId(),
                         attribute.value(),
                         field.get(entity).toString()
                 );
@@ -109,10 +112,9 @@ public class EntityProcessorService<T> {
                 parameterDtoList.add(parameterDto);
             }
         }
-        System.out.println(objectDto.toString());
-        parameterDtoList.forEach(System.out::println);
+//        Выводим полученныепараметры
+//        parameterDtoList.forEach(System.out::println);
 
-        objectRepository.save(objectDto);
         parameterRepository.saveAll(parameterDtoList);
 
     }
