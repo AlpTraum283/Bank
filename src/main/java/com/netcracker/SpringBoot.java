@@ -10,6 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+
+import static com.netcracker.Constants.*;
 
 @SpringBootApplication
 public class SpringBoot implements CommandLineRunner {
@@ -28,11 +31,12 @@ public class SpringBoot implements CommandLineRunner {
 
         try {
             service.getEntityById(UserEntity.class, 1);
-            service.getEntityById(UserEntity.class, 2);
             service.getEntityById(AccountEntity.class, 3);
-            service.getEntityById(AccountEntity.class, 80);
             service.getEntityById(TransferEntity.class, 7);
-            service.getEntityById(TransferEntity.class, 5);
+
+            service.saveEntity(new UserEntity(11,0, "SavingUserOne", new Date(), OBJECT_TYPE_USER, "savingUserPassword"));
+            service.saveEntity(new TransferEntity(11,8, "SavingTransfer", new Date(), OBJECT_TYPE_TRANSFER, 4, "Transfer", 600L));
+            service.saveEntity(new AccountEntity(11,8,"savingAccount",new Date(), OBJECT_TYPE_ACCOUNT, "RUB",800L, 0L));
         } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException | NoSuchFieldException e) {
             e.printStackTrace();
         }

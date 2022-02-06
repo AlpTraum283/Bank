@@ -8,40 +8,26 @@ import java.util.Date;
 
 public class UserEntity extends BasicEntity {
 
-    private int owner;
-
-    private String name;
-
     @Attribute(value = 3)
     private String password;
-
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date date;
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     @Override
     public String toString() {
         return "UserEntity{" +
-                "id='" + super.getObjId() + '\'' +
-                ", owner='" + owner + '\'' +
-                ", name='" + name + '\'' +
+                super.toString() +
                 ", password='" + password + '\'' +
-                ", date=" + date +
                 '}';
     }
 
-    public UserEntity(Integer id) {
-        super(id);
+    public UserEntity() {
+    }
+
+    public UserEntity(int objId, int owner, String name, Date date, String type, String password) {
+        super(objId, owner, name, date, type);
+        this.password = password;
     }
 }

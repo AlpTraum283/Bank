@@ -33,4 +33,25 @@ public class ParameterDto implements Serializable {
     public String getValue() {
         return value;
     }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
+    }
+
+    public void setAttrId(Integer attrId) {
+        this.attrId = attrId;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public ParameterDto(Integer objId, Integer attrId, String value) {
+        this.objId = objId;
+        this.attrId = attrId;
+        this.value = value;
+    }
+
+    public ParameterDto() {
+    }
 }

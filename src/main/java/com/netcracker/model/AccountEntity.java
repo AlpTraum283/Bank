@@ -7,12 +7,6 @@ import java.util.Date;
 
 public class AccountEntity extends BasicEntity{
 
-    private int owner;
-
-    private String name;
-
-    private Date date;
-
     @Attribute(value = 6)
     private String currency;
 
@@ -21,14 +15,6 @@ public class AccountEntity extends BasicEntity{
 
     @Attribute(value = 2)
     private long draft;
-
-    public void setOwner(int owner) {
-        this.owner = owner;
-    }
-
-    public void setDate_of_open(Date date) {
-        this.date = date;
-    }
 
     public void setCurrency(String currency) {
         this.currency = currency;
@@ -42,19 +28,24 @@ public class AccountEntity extends BasicEntity{
         this.draft = draft;
     }
 
+
+    public AccountEntity() {
+    }
+
+    public AccountEntity(int objId, int owner, String name, Date date, String type, String currency, long balance, long draft) {
+        super(objId, owner, name, date, type);
+        this.currency = currency;
+        this.balance = balance;
+        this.draft = draft;
+    }
+
     @Override
     public String toString() {
-        return "Account{" +
-                "id=" + super.getObjId() +
-                ", owner=" + owner +
-                ", date=" + date +
+        return "AccountEntity{" +
+                super.toString() +
                 ", currency='" + currency + '\'' +
                 ", balance=" + balance +
                 ", draft=" + draft +
                 '}';
-    }
-
-    public AccountEntity(Integer id) {
-        super(id);
     }
 }

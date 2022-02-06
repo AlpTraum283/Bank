@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS object(obj_id serial NOT NULL,
+CREATE TABLE IF NOT EXISTS object(
+        obj_id serial NOT NULL,
 	    owner integer DEFAULT 0,
 	    name character varying  NOT NULL,
 	    date date NOT NULL,

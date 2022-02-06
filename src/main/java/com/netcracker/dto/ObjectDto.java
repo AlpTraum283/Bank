@@ -44,4 +44,37 @@ public class ObjectDto {
     public String getType() {
         return type;
     }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
+    }
+
+    public void setOwner(Integer owner) {
+        this.owner = owner;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ObjectDto(Integer objId, Integer owner, String name, Date date, String type) {
+        this.owner = owner;
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.objId = objId;
+    }
+
+    public ObjectDto() {
+    }
+
+
 }

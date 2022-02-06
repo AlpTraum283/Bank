@@ -1,6 +1,5 @@
 package com.netcracker.service;
 
-import com.netcracker.Constants;
 import com.netcracker.annotation.Attribute;
 import com.netcracker.dto.ParameterDto;
 import com.netcracker.model.*;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,4 +81,39 @@ public class EntityProcessorService<T> {
         return null;
     }
 
+    public <T extends BasicEntity> void saveEntity(T entity) throws IllegalAccessException {
+
+        if (entity == null)
+            return;
+
+        ObjectDto objectDto = new ObjectDto();
+        List<ParameterDto> parameterDtoList = new ArrayList<>();
+
+        objectDto.setDate(entity.getDate());
+        objectDto.setName(entity.getName());
+        objectDto.setObjId(entity.getObjId());
+        objectDto.setOwner(entity.getOwner());
+        objectDto.setType(entity.getType());
+
+        for (Field field : entity.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(Attribute.class)) {
+                Attribute attribute = field.getAnnotation(Attribute.class);
+//                todo: разбиваем поля на обьекты ParameterDto, вместе с id обьекта, атрибута и значением поля
+                ParameterDto parameterDto = new ParameterDto(
+                        entity.getObjId(),
+                        attribute.value(),
+                        field.get(entity).toString()
+                );
+//                todo: добавляем параметр в список параметров
+                parameterDtoList.add(parameterDto);
+            }
+        }
+        System.out.println(objectDto.toString());
+        parameterDtoList.forEach(System.out::println);
+
+        objectRepository.save(objectDto);
+        parameterRepository.saveAll(parameterDtoList);
+
+    }
 }

@@ -1,8 +1,5 @@
 package com.netcracker;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Constants {
 
     public static final int BALANCE_ATTRIBUTE_ID = 1;
@@ -21,4 +18,9 @@ public class Constants {
 
     public static final int RECIPIENT_ATTRIBUTE_ID = 8;
 
+    public static final String OBJECT_TYPE_USER = "userentity";
+
+    public static final String OBJECT_TYPE_TRANSFER = "transferentity";
+
+    public static final String OBJECT_TYPE_ACCOUNT = "accountentity";
 }

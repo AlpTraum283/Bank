@@ -24,10 +24,6 @@ public class BasicEntity {
     public BasicEntity() {
     }
 
-    public BasicEntity(int objId) {
-        this.objId = objId;
-    }
-
     public BasicEntity(int objId, int owner, String name, Date date, String type) {
         this.objId = objId;
         this.owner = owner;
@@ -74,5 +70,13 @@ public class BasicEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return ", owner=" + owner +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", type='" + type;
     }
 }
