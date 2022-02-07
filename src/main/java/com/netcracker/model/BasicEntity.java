@@ -16,7 +16,7 @@ public class BasicEntity {
     @Column(name = "obj_id")
     private int objId;
 
-    private int owner;
+    private Integer owner;
 
     private String name;
 
@@ -27,11 +27,19 @@ public class BasicEntity {
     public BasicEntity() {
     }
 
-    public BasicEntity(int owner, String name, Date date, String type) {
+    public BasicEntity(Integer owner, String name, Date date, String type) {
         this.owner = owner;
         this.name = name;
         this.date = date;
         this.type = type;
+    }
+
+    public BasicEntity(Integer objId, Integer owner, String name, Date date, String type) {
+        this.owner = owner;
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.objId = objId;
     }
 
     public int getObjId() {

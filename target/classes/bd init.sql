@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS object(
     CONSTRAINT "Attribute_pkey" PRIMARY KEY (id)
 );
 
-	CREATE TABLE IF NOT EXISTS parameterDto(
+	CREATE TABLE IF NOT EXISTS parameter(
     obj_id integer NOT NULL,
     attr_id integer NOT NULL,
     value character varying NOT NULL,

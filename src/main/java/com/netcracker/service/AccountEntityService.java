@@ -1,0 +1,19 @@
+package com.netcracker.service;
+
+import com.netcracker.repository.ObjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class AccountEntityService {
+
+    @Autowired
+    ObjectRepository repository;
+
+    public Map<String, String> selectAccountById(Integer id) {
+        return repository.selectAccountById(id);
+    }
+}
