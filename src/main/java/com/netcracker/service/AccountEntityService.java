@@ -16,4 +16,12 @@ public class AccountEntityService {
     public Map<String, String> selectAccountById(Integer id) {
         return repository.selectAccountById(id);
     }
+
+    public String returnAccountById(Integer id) {
+        return repository.returnAccountById(id);
+    }
+
+    public  List<Map<String,String>> selectOperationsByAccountId(Integer id) {
+        return repository.selectOperationsByAccountId(id);
+    }
 }

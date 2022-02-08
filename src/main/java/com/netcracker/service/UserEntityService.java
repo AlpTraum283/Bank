@@ -14,7 +14,11 @@ public class UserEntityService {
     @Autowired
     ObjectRepository repository;
 
-    public List<String> selectUserAndAccounts(Integer id){
-        return  repository.selectUserByIdAndAccounts(id);
+    public List<String> selectAccountsByUserId(Integer id){
+        return  repository.selectAccountsByUserId(id);
+    }
+
+    public String selectUserById(Integer id){
+        return repository.selectUserById(id);
     }
 }

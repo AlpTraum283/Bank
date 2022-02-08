@@ -23,4 +23,9 @@ public class Constants {
     public static final String OBJECT_TYPE_TRANSFER = "transferentity";
 
     public static final String OBJECT_TYPE_ACCOUNT = "accountentity";
+
+    public static final String OPERATION_TYPE_IN = "IN";
+
+    public static final String OPERATION_TYPE_OUT = "OUT";
+
 }
