@@ -43,14 +43,13 @@ public class AccountEntityController {
 
 //        todo: вернуть данные об аккаунте как String
         String account = "account_id: " + service.returnAccountById(id);
-//        todo: вернуть данные об операциях, принадлежащих аккаунту как List<String>
-        List<Map<String, String>> operations = service.selectOperationsByAccountId(id);
-
+//        todo: вернуть данные об операциях, принадлежащих аккаунту как List<Map<String, String>>
+        List<Map<String, String>> operations = service.selectOperationsByAccountId(id, startDate, endDate);
+//        todo: добавить в будущем обработку параметров page и items, для отображения в браузере
         Map<String, List<Map<String, String>>> response = new HashMap<>();
         response.put(account, operations);
 
 
-//        System.out.println(startDate.toString() + "\n" + endDate.toString());
         return ResponseEntity.ok().body(response);
     }
 }

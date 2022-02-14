@@ -4,6 +4,7 @@ import com.netcracker.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class AccountEntityService {
         return repository.returnAccountById(id);
     }
 
-    public  List<Map<String,String>> selectOperationsByAccountId(Integer id) {
-        return repository.selectOperationsByAccountId(id);
+    public  List<Map<String,String>> selectOperationsByAccountId(Integer id, Date startDate, Date endDate) {
+        return repository.selectOperationsByAccountId(id, startDate, endDate);
     }
 }
