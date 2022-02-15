@@ -1,11 +1,11 @@
 package com.netcracker.controller;
 
-import com.netcracker.dto.ObjectDto;
-import com.netcracker.exception.ResourceNotFoundException;
-import com.netcracker.model.AccountEntity;
-import com.netcracker.model.BasicEntity;
-import com.netcracker.model.UserEntity;
-import com.netcracker.service.AccountEntityService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netcracker.model.dto.database.ObjectDto;
+import com.netcracker.model.entity.AccountEntity;
+import com.netcracker.model.entity.UserEntity;
 import com.netcracker.service.EntityProcessorService;
 import com.netcracker.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.netcracker.Constants.OBJECT_TYPE_ACCOUNT;
 
@@ -29,27 +27,44 @@ public class UserEntityController {
     UserEntityService userEntityService;
     @Autowired
     EntityProcessorService entityProcessorService;
-    @Autowired
-    AccountEntityService accountEntityService;
 
     @GetMapping("/user/{id}")
-    public ResponseEntity getUserAndAccountsById(@PathVariable(value = "id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+    public ResponseEntity getUserAndAccountsById(@PathVariable(value = "id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
+
         UserEntity userEntity = (UserEntity) entityProcessorService.getEntityByIdAndType(UserEntity.class, id);
+        List<ObjectDto> objectDtoList = userEntityService.getByOwnerAndType(userEntity.getObjId(), OBJECT_TYPE_ACCOUNT);
+//        todo: Вернуть обьекты transfer на основе id, после чего засунуть их в список
         List<AccountEntity> accountEntityList = new ArrayList<>();
-        List<ObjectDto> objectDtoList = accountEntityService.getByOwnerAndType(userEntity.getObjId(), OBJECT_TYPE_ACCOUNT);
+//        todo: Парсим обьекты dto на обьекты Transfer, заполняя ими список
+        for (ObjectDto sample : objectDtoList) {
+            AccountEntity accountEntity =
+                    (AccountEntity) entityProcessorService.getEntityByIdAndType(AccountEntity.class, sample.getObjId());
+            accountEntityList.add(accountEntity);
+        }
+//        todo: формируем подстроку в виде выпадающего списка для каждой транзакции
+        StringBuilder accountFormattedList = new StringBuilder("");
+        int counter = 1;
+        for (AccountEntity entity : accountEntityList) {
 
+            accountFormattedList.append("{");
+            accountFormattedList.append("\"account_id\":\"").append(entity.getObjId()).append("\"");
+            if (counter < accountEntityList.size()) {
+                accountFormattedList.append(",\"balance\": \"").append(entity.getBalance()).append("\"},");
+                counter++;
+            } else {
+                accountFormattedList.append(",\"balance\": \"").append(entity.getBalance()).append("\"}");
+            }
 
-//        if (userEntity == null || objectDtoList == null)
-//            return null;
-//
-//        for (ObjectDto sample : objectDtoList) {
-//            AccountEntity accountEntity =
-//                    (AccountEntity) entityProcessorService.getEntityByIdAndType(AccountEntity.class, sample.getObjId());
-//            accountEntityList.add(accountEntity);
-//        }
-//
-//        StringBuilder
-//        return ResponseEntity.ok().body(response);
-        return null;
+        }
+        String response = "{" +
+                "\"user_id\": \"" + id +
+                "\", \"accounts\": [" + accountFormattedList +
+                "]" +
+                "}";
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonObject = mapper.readTree(response);
+
+        return ResponseEntity.ok().body(jsonObject);
     }
 }

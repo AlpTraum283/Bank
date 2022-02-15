@@ -1,4 +1,4 @@
-package com.netcracker.model;
+package com.netcracker.model.entity;
 
 import com.netcracker.annotation.Attribute;
 
@@ -62,5 +62,12 @@ public class AccountEntity extends BasicEntity{
                 ", balance=" + balance +
                 ", draft=" + draft +
                 '}';
+    }
+    public String getInfo(){
+        return "{\"id\": \"" + this.getObjId() +
+                "\",\"balance\": \"" + this.getBalance() +
+                "\",\"currency\": \"" + this.getCurrency() +
+                "\",\"date\": \"" + this.getDate() +
+                "\"}";
     }
 }

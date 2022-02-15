@@ -1,4 +1,4 @@
-package com.netcracker.model;
+package com.netcracker.model.entity;
 
 import com.netcracker.annotation.Attribute;
 

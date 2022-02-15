@@ -1,9 +1,9 @@
 package com.netcracker.service;
 
 import com.netcracker.annotation.Attribute;
-import com.netcracker.dto.ParameterDto;
-import com.netcracker.model.*;
-import com.netcracker.dto.ObjectDto;
+import com.netcracker.model.dto.database.ParameterDto;
+import com.netcracker.model.dto.database.ObjectDto;
+import com.netcracker.model.entity.BasicEntity;
 import com.netcracker.repository.ObjectRepository;
 import com.netcracker.repository.ParameterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,8 +11,8 @@ public class TransferEntityService {
     @Autowired
     ObjectRepository repository;
 
-//    public Integer selectBalanceByAccountId(Integer id){
+//    public Integer selectBalanceByAccountId(Integer id) {
 //
-////        return repository.selectBalanceByAccountId(id);
+//        return repository.selectBalanceByAccountId(id);
 //    }
 }

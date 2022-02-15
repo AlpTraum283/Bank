@@ -1,6 +1,6 @@
-package com.netcracker.dto;
+package com.netcracker.model.dto.database;
 
-import com.netcracker.model.CompositeId;
+import com.netcracker.model.entity.CompositeId;
 import lombok.Data;
 
 import javax.persistence.*;

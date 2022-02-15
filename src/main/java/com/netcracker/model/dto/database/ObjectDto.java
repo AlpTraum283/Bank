@@ -1,4 +1,4 @@
-package com.netcracker.dto;
+package com.netcracker.model.dto.database;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;

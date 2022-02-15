@@ -1,7 +1,6 @@
-package com.netcracker.model;
+package com.netcracker.model.entity;
 
 import com.netcracker.annotation.Attribute;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
