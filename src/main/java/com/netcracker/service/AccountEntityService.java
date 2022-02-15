@@ -14,19 +14,13 @@ public class AccountEntityService {
 
     @Autowired
     ObjectRepository repository;
-//  Возвращает обьект, основываясь на Id и Type обьекта
+
+//      Возвращает обьект, основываясь на Id и Type обьекта
     public ObjectDto getByObjIdAndType(Integer id, String type) {
         return repository.getByObjIdAndType(id, type);
     }
-
-    public List<ObjectDto> getByOwnerAndType(Integer owner, String type){
+//      Возвращает список обьектов на основе id владельца и type искомого обьекта
+    public List<ObjectDto> getByOwnerAndType(Integer owner, String type) {
         return repository.getByOwnerAndType(owner, type);
     }
-//    public String returnAccountById(Integer id) {
-//        return repository.returnAccountById(id);
-//    }
-//
-//    public  List<Map<String,String>> selectOperationsByAccountId(Integer id, Date startDate, Date endDate) {
-//        return repository.selectOperationsByAccountId(id, startDate, endDate);
-//    }
 }

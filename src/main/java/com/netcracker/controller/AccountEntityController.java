@@ -1,11 +1,13 @@
 package com.netcracker.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.dto.ObjectDto;
 import com.netcracker.model.AccountEntity;
 import com.netcracker.model.TransferEntity;
 import com.netcracker.service.AccountEntityService;
 import com.netcracker.service.EntityProcessorService;
-import io.swagger.v3.core.util.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,20 +32,29 @@ public class AccountEntityController {
     EntityProcessorService entityProcessorService;
 
     @GetMapping("/account/{id}")
-    public ResponseEntity getAccountById(@PathVariable("id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+    public ResponseEntity getAccountById(@PathVariable("id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
         ObjectDto objectDto = accountEntityService.getByObjIdAndType(id, OBJECT_TYPE_ACCOUNT);
         if (objectDto == null)
             return null;
         AccountEntity accountEntity =
                 (AccountEntity) entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
-        StringBuilder response = new StringBuilder("{");
-        response.append("\n\t\"id\": \"").append(accountEntity.getObjId()).append("\"");
-        response.append(",\n\t\"balance\": ").append(accountEntity.getBalance());
-        response.append(",\n\t\"currency\": \"").append(accountEntity.getCurrency()).append("\"");
-        response.append(",\n\t\"date\": ").append(accountEntity.getDate());
-        response.append("\n}");
-        return ResponseEntity.ok().body(response);
+//        StringBuilder response = new StringBuilder("{");
+//        response.append("\n\t\"id\": \"").append(accountEntity.getObjId()).append("\"");
+//        response.append(",\n\t\"balance\": ").append(accountEntity.getBalance());
+//        response.append(",\n\t\"currency\": \"").append(accountEntity.getCurrency()).append("\"");
+//        response.append(",\n\t\"date\": ").append(accountEntity.getDate());
+//        response.append("\n}");
+        String str = "{ " +
+                "\"id\": \"" + accountEntity.getObjId() +
+                "\",\"balance\": \"" + accountEntity.getBalance() +
+                "\",\"currency\": \"" + accountEntity.getCurrency() +
+                "\",\"date\": \"" + accountEntity.getDate() +
+                "\" }";
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonObject = mapper.readTree(str);
+
+        return ResponseEntity.ok().body(jsonObject);
     }
 
 
@@ -53,7 +64,7 @@ public class AccountEntityController {
             @RequestParam(value = "start_date", defaultValue = "20000101") String startDateParam,
             @RequestParam(value = "end_date", defaultValue = "20231212") String endDateParam,
             @RequestParam(value = "page", defaultValue = "1") Integer pageAmount,
-            @RequestParam(value = "items", defaultValue = "10") Integer items) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+            @RequestParam(value = "items", defaultValue = "10") Integer items) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
         Date startDate = java.sql.Date.valueOf(LocalDate.parse(startDateParam, DateTimeFormatter.BASIC_ISO_DATE));
         Date endDate = java.sql.Date.valueOf(LocalDate.parse(endDateParam, DateTimeFormatter.BASIC_ISO_DATE));
@@ -71,20 +82,29 @@ public class AccountEntityController {
 
         }
 //        todo: формируем подстроку в виде выпадающего списка для каждой транзакции
-        StringBuilder transferFormattedList = new StringBuilder("[");
+        StringBuilder transferFormattedList = new StringBuilder("");
+        int counter = 1;
         for (TransferEntity entity : transferEntityList) {
 
-            transferFormattedList.append("\n\t{");
-            transferFormattedList.append("\n\t  \"type\": \"").append(entity.getOperation()).append("\"");
-            transferFormattedList.append(",\n\t  \"sum\": \"").append(entity.getSum()).append("\"");
-            transferFormattedList.append(",\n\t  \"date\": \"").append(entity.getDate()).append("\"\n\t}");
+            transferFormattedList.append("{");
+            transferFormattedList.append("\"type\":\"").append(entity.getOperation()).append("\"");
+            transferFormattedList.append(",\"sum\": \"").append(entity.getSum()).append("\"");
+            if (counter < transferEntityList.size()) {
+                transferFormattedList.append(",\"date\": \"").append(entity.getDate()).append("\"},");
+                counter++;
+            } else {
+                transferFormattedList.append(",\"date\": \"").append(entity.getDate()).append("\"}");
+            }
+
         }
-        String response = "{ \n" +
-                "\t\"account_id\": \"" + accountEntityService.getByObjIdAndType(id, OBJECT_TYPE_ACCOUNT).getObjId() + "\"," +
-                "\n\t\"operations\": " + transferFormattedList + "\n\t]" +
-                "\n}";
+        String response = "{" +
+                "\n \"account_id\": \"" + id +
+                "\", \"operations\": [" + transferFormattedList +
+                "]" +
+                "}";
 
-
-        return ResponseEntity.ok().body(response);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonObject = mapper.readTree(response);
+        return ResponseEntity.ok().body(jsonObject);
     }
 }
