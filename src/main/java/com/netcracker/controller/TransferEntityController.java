@@ -17,31 +17,31 @@ public class TransferEntityController {
     @Autowired
     TransferEntityService service;
 
-    @PostMapping("/transfer")
-    public ResponseEntity createTransferRequest(@RequestBody TransferRequest transferRequest) {
-
-        if (transferRequest == null)
-            return null;
-
-//        todo: проверить наличие средств у sender`а,
-        Integer accountBalance = service.selectBalanceByAccountId(transferRequest.getSender());
-//        todo: если все в порядке - создать сущность Transfer, заполнить соответствующие поля(Date, sender, recipient, sum)
-        if (accountBalance < transferRequest.getSum())
-            return ResponseEntity.badRequest().body("Недостаточно средств на аккаунте с id=" + transferRequest.getSender());
-
-        TransferEntity transferEntity = new TransferEntity(
-                transferRequest.getSender(),
-                "Transfer " + transferRequest.getId(),
-                transferRequest.getDate(),
-                OBJECT_TYPE_TRANSFER,
-                transferRequest.getRecipient(),
-                OPERATION_TYPE_OUT,
-                transferRequest.getSum()
-        );
-
-
-        return ResponseEntity.ok().body(transferEntity);
-    }
+//    @PostMapping("/transfer")
+//    public ResponseEntity createTransferRequest(@RequestBody TransferRequest transferRequest) {
+//
+//        if (transferRequest == null)
+//            return null;
+//
+////        todo: проверить наличие средств у sender`а,
+//        Integer accountBalance = service.selectBalanceByAccountId(transferRequest.getSender());
+////        todo: если все в порядке - создать сущность Transfer, заполнить соответствующие поля(Date, sender, recipient, sum)
+//        if (accountBalance < transferRequest.getSum())
+//            return ResponseEntity.badRequest().body("Недостаточно средств на аккаунте с id=" + transferRequest.getSender());
+//
+//        TransferEntity transferEntity = new TransferEntity(
+//                transferRequest.getSender(),
+//                "Transfer " + transferRequest.getId(),
+//                transferRequest.getDate(),
+//                OBJECT_TYPE_TRANSFER,
+//                transferRequest.getRecipient(),
+//                OPERATION_TYPE_OUT,
+//                transferRequest.getSum()
+//        );
+//
+//
+//        return ResponseEntity.ok().body(transferEntity);
+//    }
 
 
 }

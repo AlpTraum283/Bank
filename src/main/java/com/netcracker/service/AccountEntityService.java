@@ -1,5 +1,6 @@
 package com.netcracker.service;
 
+import com.netcracker.dto.ObjectDto;
 import com.netcracker.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +14,19 @@ public class AccountEntityService {
 
     @Autowired
     ObjectRepository repository;
-
-    public Map<String, String> selectAccountById(Integer id) {
-        return repository.selectAccountById(id);
+//  Возвращает обьект, основываясь на Id и Type обьекта
+    public ObjectDto getByObjIdAndType(Integer id, String type) {
+        return repository.getByObjIdAndType(id, type);
     }
 
-    public String returnAccountById(Integer id) {
-        return repository.returnAccountById(id);
+    public List<ObjectDto> getByOwnerAndType(Integer owner, String type){
+        return repository.getByOwnerAndType(owner, type);
     }
-
-    public  List<Map<String,String>> selectOperationsByAccountId(Integer id, Date startDate, Date endDate) {
-        return repository.selectOperationsByAccountId(id, startDate, endDate);
-    }
+//    public String returnAccountById(Integer id) {
+//        return repository.returnAccountById(id);
+//    }
+//
+//    public  List<Map<String,String>> selectOperationsByAccountId(Integer id, Date startDate, Date endDate) {
+//        return repository.selectOperationsByAccountId(id, startDate, endDate);
+//    }
 }

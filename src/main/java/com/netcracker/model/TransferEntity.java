@@ -35,6 +35,22 @@ public class TransferEntity extends BasicEntity {
         this.sender = sender;
     }
 
+    public int getSender() {
+        return sender;
+    }
+
+    public int getRecipient() {
+        return recipient;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public long getSum() {
+        return sum;
+    }
+
     @Override
     public String toString() {
         return "TransferEntity{" +
@@ -49,7 +65,11 @@ public class TransferEntity extends BasicEntity {
     public TransferEntity() {
     }
 
-    public TransferEntity(int owner, String name, Date date, String type, int recipient, String operation, long sum) {
+    public TransferEntity(Integer objId, Integer owner, String name, Date date, String type) {
+        super(objId, owner, name, date, type);
+    }
+
+    public TransferEntity(Integer owner, String name, Date date, String type, int recipient, String operation, long sum) {
         super(owner, name, date, type);
         this.sender = owner;
         this.recipient = recipient;

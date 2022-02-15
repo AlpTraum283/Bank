@@ -25,9 +25,9 @@ public class EntityProcessorService<T> {
     ObjectRepository objectRepository;
 
 
-    public <T extends BasicEntity> T getEntityById(Class clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+    public <T extends BasicEntity> T getEntityByIdAndType(Class clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
 
-        ObjectDto objectDtoList = objectRepository.findByObjId(id, clazz.getSimpleName().toLowerCase());
+        ObjectDto objectDtoList = objectRepository.getByObjIdAndType(id, clazz.getSimpleName().toLowerCase());
         List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(id);
 
         if (objectDtoList != null && parameterDtoList != null) {

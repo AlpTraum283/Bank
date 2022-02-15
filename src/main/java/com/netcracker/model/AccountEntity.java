@@ -28,8 +28,23 @@ public class AccountEntity extends BasicEntity{
         this.draft = draft;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public long getDraft() {
+        return draft;
+    }
 
     public AccountEntity() {
+    }
+
+    public AccountEntity(Integer objId, Integer owner, String name, Date date, String type) {
+        super(objId, owner, name, date, type);
     }
 
     public AccountEntity(int owner, String name, Date date, String type, String currency, long balance, long draft) {
