@@ -16,7 +16,9 @@ INSERT INTO attribute(name) VALUES
 ('sum'),
 ('currency'),
 ('sender'),
-('recipient');
+('recipient'),
+('status'),
+('message');
 
 
 

@@ -51,17 +51,6 @@ public class TransferEntity extends BasicEntity {
         return sum;
     }
 
-    @Override
-    public String toString() {
-        return "TransferEntity{" +
-                super.toString() +
-                ", sender=" + sender +
-                ", recipient=" + recipient +
-                ", operation='" + operation + '\'' +
-                ", sum=" + sum +
-                '}';
-    }
-
     public TransferEntity() {
     }
 

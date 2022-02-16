@@ -22,12 +22,7 @@ public class AccountEntityService {
     @Autowired
     EntityProcessorService service;
 
-    //      Возвращает обьект, основываясь на Id и Type обьекта
-    public ObjectDto getByObjIdAndType(Integer id, String type) {
-        return repository.getByObjIdAndType(id, type);
-    }
-
-    //      Заменить тип возвращаемого значения на List<AccountEntity>, добавить логику превращения данных в данный список
+    //      Возвращает список операций, проведенных с участием аккаунта
     public List<TransferEntity> getTransferListByAccountId(Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
         List<ObjectDto> objectDtoList = repository.getByOwnerAndType(id, OBJECT_TYPE_TRANSFER);
         List<TransferEntity> transferEntityList = new ArrayList<>();

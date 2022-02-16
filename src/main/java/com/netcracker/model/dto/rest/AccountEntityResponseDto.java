@@ -1,12 +1,13 @@
 package com.netcracker.model.dto.rest;
 
+import com.google.gson.Gson;
 import com.netcracker.model.entity.TransferEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AccountGetMappingDto {
+public class AccountEntityResponseDto {
 
     private int accountId;
 
@@ -26,13 +27,28 @@ public class AccountGetMappingDto {
             this.date = date;
         }
 
-        @Override
-        public String toString() {
-            return "{" +
-                    "\"type\": \"" + type +
-                    "\",\"sum\": \"" + sum +
-                    "\",\"date\": \"" + date +
-                    "\"}";
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public long getSum() {
+            return sum;
+        }
+
+        public void setSum(long sum) {
+            this.sum = sum;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
         }
     }
 
@@ -54,27 +70,14 @@ public class AccountGetMappingDto {
 
     }
 
-    public AccountGetMappingDto(int accountId) {
+    public AccountEntityResponseDto(int accountId) {
         this.accountId = accountId;
     }
 
     @Override
     public String toString() {
-        String operationsList = "";
-        int counter = 1;
-        for (Operation operation : this.operations) {
-            if (counter < operations.size()) {
-                operationsList += operation.toString() + ",";
-                counter++;
-            } else {
-                operationsList += operation.toString();
-            }
-        }
+        Gson gson = new Gson();
 
-        return "{" +
-                "\"account_id\": \"" + this.accountId +
-                "\",\"operations\": [" + operationsList +
-                "]" +
-                "}";
+        return gson.toJson(this);
     }
 }

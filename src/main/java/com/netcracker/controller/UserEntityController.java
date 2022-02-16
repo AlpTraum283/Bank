@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.model.dto.database.ObjectDto;
+import com.netcracker.model.dto.rest.UserEntityResponseDto;
 import com.netcracker.model.entity.AccountEntity;
 import com.netcracker.model.entity.UserEntity;
 import com.netcracker.service.EntityProcessorService;
@@ -29,42 +30,21 @@ public class UserEntityController {
     EntityProcessorService entityProcessorService;
 
     @GetMapping("/user/{id}")
-    public ResponseEntity getUserAndAccountsById(@PathVariable(value = "id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
+    public ResponseEntity<UserEntityResponseDto> getUserAndAccountsById(@PathVariable(value = "id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
         UserEntity userEntity = (UserEntity) entityProcessorService.getEntityByIdAndType(UserEntity.class, id);
-        List<ObjectDto> objectDtoList = userEntityService.getByOwnerAndType(userEntity.getObjId(), OBJECT_TYPE_ACCOUNT);
-//        todo: Вернуть обьекты transfer на основе id, после чего засунуть их в список
-        List<AccountEntity> accountEntityList = new ArrayList<>();
-//        todo: Парсим обьекты dto на обьекты Transfer, заполняя ими список
-        for (ObjectDto sample : objectDtoList) {
-            AccountEntity accountEntity =
-                    (AccountEntity) entityProcessorService.getEntityByIdAndType(AccountEntity.class, sample.getObjId());
-            accountEntityList.add(accountEntity);
-        }
-//        todo: формируем подстроку в виде выпадающего списка для каждой транзакции
-        StringBuilder accountFormattedList = new StringBuilder("");
-        int counter = 1;
+        List<AccountEntity> accountEntityList = userEntityService.getAccountListByOwner(userEntity.getObjId());
+
+        UserEntityResponseDto userEntityResponseDto = new UserEntityResponseDto(userEntity.getName());
         for (AccountEntity entity : accountEntityList) {
-
-            accountFormattedList.append("{");
-            accountFormattedList.append("\"account_id\":\"").append(entity.getObjId()).append("\"");
-            if (counter < accountEntityList.size()) {
-                accountFormattedList.append(",\"balance\": \"").append(entity.getBalance()).append("\"},");
-                counter++;
-            } else {
-                accountFormattedList.append(",\"balance\": \"").append(entity.getBalance()).append("\"}");
-            }
-
+            userEntityResponseDto.addAccount(
+                    new UserEntityResponseDto.Account(
+                            entity.getObjId(),
+                            entity.getBalance()
+                    ));
         }
-        String response = "{" +
-                "\"user_id\": \"" + id +
-                "\", \"accounts\": [" + accountFormattedList +
-                "]" +
-                "}";
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObject = mapper.readTree(response);
 
-        return ResponseEntity.ok().body(jsonObject);
+        return ResponseEntity.ok().body(userEntityResponseDto);
     }
 }

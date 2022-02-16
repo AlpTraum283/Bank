@@ -25,13 +25,13 @@ public class EntityProcessorService<T> {
     ObjectRepository objectRepository;
 
 
-    public <T extends BasicEntity> T getEntityByIdAndType(Class clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+    public <T extends BasicEntity> T getEntityByIdAndType(Class<T> clazz, Integer id) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
 
         ObjectDto objectDtoList = objectRepository.getByObjIdAndType(id, clazz.getSimpleName().toLowerCase());
         List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(id);
 
         if (objectDtoList != null && parameterDtoList != null) {
-            T obj = (T) clazz.
+            T obj = clazz.
                     getDeclaredConstructor(Integer.class, Integer.class, String.class, Date.class, String.class).
                     newInstance(id, objectDtoList.getOwner(), objectDtoList.getName(), objectDtoList.getDate(), objectDtoList.getType());
 
@@ -77,10 +77,10 @@ public class EntityProcessorService<T> {
     }
 
     @Transactional
-    public <T extends BasicEntity> void saveEntity(T entity) throws IllegalAccessException {
+    public <T extends BasicEntity> ObjectDto saveEntity(T entity) throws IllegalAccessException {
 
         if (entity == null)
-            return;
+            return null;
 
         ObjectDto objectDto = new ObjectDto();
         List<ParameterDto> parameterDtoList = new ArrayList<>();
@@ -110,7 +110,7 @@ public class EntityProcessorService<T> {
             }
         }
         parameterRepository.saveAll(parameterDtoList);
-
+        return objectId;
     }
 
 }

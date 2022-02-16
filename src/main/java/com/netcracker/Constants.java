@@ -10,10 +10,13 @@ public class Constants {
     public static final int CURRENCY_ATTRIBUTE_ID = 6;
     public static final int SENDER_ATTRIBUTE_ID = 7;
     public static final int RECIPIENT_ATTRIBUTE_ID = 8;
+    public static final int STATUS_ATTRIBUTE_ID = 9;
+    public static final int MESSAGE_ATTRIBUTE_ID = 10;
 
     public static final String OBJECT_TYPE_USER = "userentity";
     public static final String OBJECT_TYPE_TRANSFER = "transferentity";
     public static final String OBJECT_TYPE_ACCOUNT = "accountentity";
+    public static final String OBJECT_TYPE_TRANSFER_REQUEST = "transferrequestentity";
 
     public static final String OPERATION_TYPE_IN = "IN";
     public static final String OPERATION_TYPE_OUT = "OUT";
