@@ -31,8 +31,7 @@ public class AccountEntityController {
     @GetMapping("/account/{id}")
     public ResponseEntity getAccountById(@PathVariable("id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
-        AccountEntity accountEntity =
-                (AccountEntity) entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
+        AccountEntity accountEntity = entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
         if (accountEntity == null)
             return null;
 

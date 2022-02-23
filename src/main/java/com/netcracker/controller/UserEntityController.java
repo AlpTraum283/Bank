@@ -32,7 +32,7 @@ public class UserEntityController {
     @GetMapping("/user/{id}")
     public ResponseEntity<UserEntityResponseDto> getUserAndAccountsById(@PathVariable(value = "id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
-        UserEntity userEntity = (UserEntity) entityProcessorService.getEntityByIdAndType(UserEntity.class, id);
+        UserEntity userEntity = entityProcessorService.getEntityByIdAndType(UserEntity.class, id);
         List<AccountEntity> accountEntityList = userEntityService.getAccountListByOwner(userEntity.getObjId());
 
         UserEntityResponseDto userEntityResponseDto = new UserEntityResponseDto(userEntity.getName());

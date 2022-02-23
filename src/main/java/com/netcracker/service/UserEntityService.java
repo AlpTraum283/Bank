@@ -25,8 +25,7 @@ public class UserEntityService {
         List<ObjectDto> objectDtoList = repository.getByOwnerAndType(owner,OBJECT_TYPE_ACCOUNT);
         List<AccountEntity> accountEntityList = new ArrayList<>();
         for (ObjectDto sample : objectDtoList) {
-            AccountEntity accountEntity =
-                    (AccountEntity) service.getEntityByIdAndType(AccountEntity.class, sample.getObjId());
+            AccountEntity accountEntity = service.getEntityByIdAndType(AccountEntity.class, sample.getObjId());
             accountEntityList.add(accountEntity);
         }
         return accountEntityList;

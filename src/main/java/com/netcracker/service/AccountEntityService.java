@@ -27,8 +27,7 @@ public class AccountEntityService {
         List<ObjectDto> objectDtoList = repository.getByOwnerAndType(id, OBJECT_TYPE_TRANSFER);
         List<TransferEntity> transferEntityList = new ArrayList<>();
         for (ObjectDto sample : objectDtoList) {
-            TransferEntity transferEntity =
-                    (TransferEntity) service.getEntityByIdAndType(TransferEntity.class, sample.getObjId());
+            TransferEntity transferEntity = service.getEntityByIdAndType(TransferEntity.class, sample.getObjId());
             transferEntityList.add(transferEntity);
 
 

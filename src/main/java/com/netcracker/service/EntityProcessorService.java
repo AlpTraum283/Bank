@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class EntityProcessorService<T> {
+public class EntityProcessorService {
 
     @Autowired
     ParameterRepository parameterRepository;
