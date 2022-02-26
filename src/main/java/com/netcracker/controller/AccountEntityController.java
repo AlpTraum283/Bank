@@ -34,7 +34,9 @@ public class AccountEntityController {
         AccountEntity accountEntity = entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
         if (accountEntity == null)
             return null;
-
+        if (UserEntityController.authorizedUserId != accountEntity.getOwner()) {
+            return ResponseEntity.status(400).body("You are not the owner of this account.");
+        }
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonObject = mapper.readTree(accountEntity.getInfo());
 
@@ -53,6 +55,11 @@ public class AccountEntityController {
         Date startDate = java.sql.Date.valueOf(LocalDate.parse(startDateParam, DateTimeFormatter.BASIC_ISO_DATE));
         Date endDate = java.sql.Date.valueOf(LocalDate.parse(endDateParam, DateTimeFormatter.BASIC_ISO_DATE));
 
+        AccountEntity accountEntity = entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
+        if (UserEntityController.authorizedUserId != accountEntity.getOwner()) {
+            return null;
+        }
+
 //        todo: получаем список транзакций по id аккаунта
         List<TransferEntity> transferEntityList = accountEntityService.getTransferListByAccountId(id);
 //        todo: заполняем список операций, подходящих по дате
@@ -68,5 +75,7 @@ public class AccountEntityController {
         }
 
         return ResponseEntity.ok().body(accountEntityResponseDto);
+
+
     }
 }

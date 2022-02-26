@@ -14,6 +14,10 @@ public class UserEntity extends BasicEntity {
         this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +

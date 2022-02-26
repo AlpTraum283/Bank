@@ -30,6 +30,19 @@ public class TransferEntityController {
     @PostMapping("/transfer")
     public ResponseEntity<TransferRequestResponseDto> createTransferRequest(
             @RequestBody CreateTransferRequestDto createTransferRequestDto) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+//        todo: ищем отправителя и получаетеля в базе
+        AccountEntity accountEntitySender = entityProcessorService.getEntityByIdAndType(
+                AccountEntity.class, createTransferRequestDto.getSender());
+        if (UserEntityController.authorizedUserId != accountEntitySender.getOwner()) {
+            return ResponseEntity.status(400).body(new TransferRequestResponseDto(
+                    0,
+                    TRANSACTION_STATUS_ERROR,
+                    "You are not owner of the account = " + accountEntitySender.getName()
+            ));
+        }
+        AccountEntity accountEntityRecipient = entityProcessorService.getEntityByIdAndType(
+                AccountEntity.class, createTransferRequestDto.getRecipient());
+
 //      todo: создаем транзакцию
         TransferRequestEntity transferRequestEntity = new TransferRequestEntity(
                 createTransferRequestDto.getSender(),
@@ -40,13 +53,6 @@ public class TransferEntityController {
                 createTransferRequestDto.getRecipient(),
                 createTransferRequestDto.getSum()
         );
-
-//        todo: ищем отправителя и получаетеля в базе
-        AccountEntity accountEntitySender = entityProcessorService.getEntityByIdAndType(
-                AccountEntity.class, createTransferRequestDto.getSender());
-        AccountEntity accountEntityRecipient = entityProcessorService.getEntityByIdAndType(
-                AccountEntity.class, createTransferRequestDto.getRecipient());
-
 //        todo: проверяем валидность
         if ((accountEntityRecipient == null) | (accountEntityRecipient == null)) {
             return ResponseEntity.status(400).body(

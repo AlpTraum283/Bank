@@ -113,4 +113,53 @@ public class EntityProcessorService {
         return objectId;
     }
 
+    public <T extends BasicEntity> T getEntityByNameAndType(Class<T> clazz, String name) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
+        ObjectDto objectDtoList = objectRepository.getByNameAndType(name, clazz.getSimpleName().toLowerCase());
+        List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(objectDtoList.getObjId());
+
+        if (objectDtoList != null && parameterDtoList != null) {
+            T obj = clazz.
+                    getDeclaredConstructor(Integer.class, Integer.class, String.class, Date.class, String.class).
+                    newInstance(objectDtoList.getObjId(), objectDtoList.getOwner(), objectDtoList.getName(), objectDtoList.getDate(), objectDtoList.getType());
+
+
+            for (Field field : obj.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+
+//                System.out.println("field name = " + field.getName());
+
+                if (field.isAnnotationPresent(Attribute.class)) {
+//                  todo: работаем с данными из таблицы Parameter
+
+                    Attribute attribute = field.getAnnotation(Attribute.class);
+                    int attrValue = attribute.value();
+
+                    for (ParameterDto parameterDto : parameterDtoList) {
+//                        System.out.println("Parameter = " + parameter);
+
+                        if (attrValue == parameterDto.getAttrId()) {
+//                            System.out.println("Equal field = " + field.getType().getSimpleName());
+                            switch (field.getType().getSimpleName()) {
+                                case "long":
+                                    field.setLong(obj, Long.valueOf(parameterDto.getValue()));
+                                    break;
+                                case "int":
+                                    field.setInt(obj, Integer.valueOf(parameterDto.getValue()));
+                                    break;
+                                case "String":
+                                    field.set(obj, parameterDto.getValue());
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+//            System.out.println(obj.toString());
+            return obj;
+        } else {
+            System.err.println("Object does not found. Type = " + clazz.getSimpleName() + ", name = " + name);
+            return null;
+        }
+    }
+
 }

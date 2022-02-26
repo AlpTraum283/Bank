@@ -16,4 +16,6 @@ public interface ObjectRepository extends JpaRepository<ObjectDto, Integer> {
 
     List<ObjectDto> getByOwnerAndType(Integer owner, String type);
 
+    ObjectDto getByNameAndType(String name, String type);
+
 }
