@@ -1,5 +1,6 @@
 package com.netcracker.controller;
 
+import com.netcracker.config.JwtProvider;
 import com.netcracker.model.dto.database.ObjectDto;
 import com.netcracker.model.dto.rest.CreateTransferRequestDto;
 import com.netcracker.model.dto.rest.TransferRequestResponseDto;
@@ -9,9 +10,11 @@ import com.netcracker.service.EntityProcessorService;
 import com.netcracker.service.TransferEntityService;
 import com.netcracker.service.TransferRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
@@ -29,19 +32,22 @@ public class TransferEntityController {
 
     @PostMapping("/transfer")
     public ResponseEntity<TransferRequestResponseDto> createTransferRequest(
-            @RequestBody CreateTransferRequestDto createTransferRequestDto) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+            @RequestBody CreateTransferRequestDto createTransferRequestDto, HttpServletRequest request) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+        Integer userId = Integer.valueOf(new JwtProvider().getLoginFromToken(token));
 //        todo: ищем отправителя и получаетеля в базе
         AccountEntity accountEntitySender = entityProcessorService.getEntityByIdAndType(
                 AccountEntity.class, createTransferRequestDto.getSender());
-        if (UserEntityController.authorizedUserId != accountEntitySender.getOwner()) {
-            return ResponseEntity.status(400).body(new TransferRequestResponseDto(
-                    0,
-                    TRANSACTION_STATUS_ERROR,
-                    "You are not owner of the account = " + accountEntitySender.getName()
-            ));
-        }
         AccountEntity accountEntityRecipient = entityProcessorService.getEntityByIdAndType(
                 AccountEntity.class, createTransferRequestDto.getRecipient());
+//        todo: проверяем на владение аккаунтом отправителя
+        if (accountEntitySender.getOwner() != userId) {
+            return ResponseEntity.status(401).body(
+                    new TransferRequestResponseDto(
+                            0, TRANSACTION_STATUS_ERROR, "No access to account with id " + accountEntitySender.getObjId())
+
+            );
+        }
 
 //      todo: создаем транзакцию
         TransferRequestEntity transferRequestEntity = new TransferRequestEntity(
@@ -77,7 +83,7 @@ public class TransferEntityController {
     }
 
     @GetMapping("/transfer/{id}")
-    public ResponseEntity<TransferRequestResponseDto> getTransferStatusById(@PathVariable("id") Integer id) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+    public ResponseEntity<TransferRequestResponseDto> getTransferStatusById(@PathVariable("id") Integer id, HttpServletRequest request) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
         TransferRequestEntity transferRequestEntity =
                 entityProcessorService.getEntityByIdAndType(TransferRequestEntity.class, id);
         if (transferRequestEntity == null) {
@@ -90,6 +96,14 @@ public class TransferEntityController {
             return ResponseEntity.status(400).body(
                     new TransferRequestResponseDto(
                             transferRequestEntity.getObjId(), TRANSACTION_STATUS_ERROR, "Transaction failed")
+            );
+        }
+        AccountEntity accountEntity = entityProcessorService.getEntityByIdAndType(AccountEntity.class, transferRequestEntity.getSender());
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+        Integer userId = Integer.valueOf(new JwtProvider().getLoginFromToken(token));
+        if(accountEntity.getOwner() != userId){
+            return ResponseEntity.status(401).body(new TransferRequestResponseDto(
+                    id, null, "Access denied")
             );
         }
         TransferRequestResponseDto responseDto = new TransferRequestResponseDto(
