@@ -35,7 +35,10 @@ public class TransferRequestService {
 //        todo: взять 2 акканунта из базы - получатель и отправитель
         AccountEntity senderAccount = entityProcessorService.getEntityByIdAndType(AccountEntity.class, transferRequestEntity.getSender());
         AccountEntity recipientAccount = entityProcessorService.getEntityByIdAndType(AccountEntity.class, transferRequestEntity.getRecipient());
-
+        if (senderAccount == null
+                | recipientAccount == null) {
+            return null;
+        }
 //        todo: провести операции перевода - на draft,
         senderAccount.setBalance(senderAccount.getBalance() - transferRequestEntity.getSum());
         senderAccount.setDraft(senderAccount.getDraft() + transferRequestEntity.getSum());
@@ -45,7 +48,8 @@ public class TransferRequestService {
 
 //        todo: создать 2 Transfer, по 1 для каждого из участников
         TransferEntity transferEntitySender = new TransferEntity(
-                transferRequestEntity.getOwner(),
+                transferRequestEntity.getSender(),
+                transferRequestEntity.getSender(),
                 String.format("TRANSFER_FROM_%d_TO_%d", transferRequestEntity.getSender(), transferRequestEntity.getRecipient()),
                 new Date(),
                 OBJECT_TYPE_TRANSFER,
@@ -55,6 +59,7 @@ public class TransferRequestService {
         );
         TransferEntity transferEntityRecipient = new TransferEntity(
                 transferRequestEntity.getRecipient(),
+                transferRequestEntity.getSender(),
                 String.format("TRANSFER_FROM_%d_TO_%d", transferRequestEntity.getSender(), transferRequestEntity.getRecipient()),
                 new Date(),
                 OBJECT_TYPE_TRANSFER,

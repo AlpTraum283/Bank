@@ -6,6 +6,10 @@ import com.netcracker.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static com.netcracker.Constants.OBJECT_TYPE_TRANSFER_REQUEST;
+
 @Service
 
 public class TransferEntityService {
@@ -18,5 +22,9 @@ public class TransferEntityService {
     public ObjectDto saveTransferRequest(TransferRequestEntity entity) throws IllegalAccessException {
         return service.saveEntity(entity);
 
+    }
+
+    public List<ObjectDto> getRequests(Integer userId) {
+        return repository.getByOwnerAndType(userId, OBJECT_TYPE_TRANSFER_REQUEST);
     }
 }

@@ -6,16 +6,18 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.*;
+
+import static com.netcracker.Constants.jwtSecret;
+
 @Component
 public class JwtProvider {
-
-    public String jwtSecret = new String(Base64.getEncoder().encode("secret".getBytes()));
 
     public String generateToken(Integer id) {
         return Jwts.builder()

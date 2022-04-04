@@ -1,7 +1,6 @@
 package com.netcracker.model.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

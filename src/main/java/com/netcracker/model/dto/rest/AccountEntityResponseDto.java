@@ -1,6 +1,7 @@
 package com.netcracker.model.dto.rest;
 
 import com.google.gson.Gson;
+import com.netcracker.model.entity.AccountEntity;
 import com.netcracker.model.entity.TransferEntity;
 
 import java.util.ArrayList;
@@ -9,69 +10,37 @@ import java.util.List;
 
 public class AccountEntityResponseDto {
 
-    private int accountId;
+    private AccountEntity account;
 
-    private List<Operation> operations = new ArrayList<>();
+    private List<TransferEntity> operations = new ArrayList<>();
 
-    public static class Operation {
-
-        private String type;
-
-        private long sum;
-
-        private Date date;
-
-        public Operation(String type, long sum, Date date) {
-            this.type = type;
-            this.sum = sum;
-            this.date = date;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public long getSum() {
-            return sum;
-        }
-
-        public void setSum(long sum) {
-            this.sum = sum;
-        }
-
-        public Date getDate() {
-            return date;
-        }
-
-        public void setDate(Date date) {
-            this.date = date;
-        }
+    public AccountEntityResponseDto(AccountEntity account, List<TransferEntity> operations) {
+        this.account = account;
+        this.operations = operations;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public AccountEntityResponseDto(AccountEntity account) {
+        this.account = account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-
+    public AccountEntity getAccount() {
+        return account;
     }
 
-    public List<Operation> getOperations() {
+    public void setAccount(AccountEntity account) {
+        this.account = account;
+    }
+
+    public List<TransferEntity> getOperations() {
         return operations;
     }
 
-    public void addOperation(Operation operation) {
-        this.operations.add(operation);
-
+    public void addOperation(TransferEntity entity) {
+        this.operations.add(entity);
     }
 
-    public AccountEntityResponseDto(int accountId) {
-        this.accountId = accountId;
+    public void setOperations(List<TransferEntity> operations) {
+        this.operations = operations;
     }
 
     @Override

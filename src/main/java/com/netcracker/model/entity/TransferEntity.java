@@ -19,38 +19,6 @@ public class TransferEntity extends BasicEntity {
     @Attribute(value = 5)
     private long sum;
 
-    public void setRecipient(int recipient) {
-        this.recipient = recipient;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public void setSum(long sum) {
-        this.sum = sum;
-    }
-
-    public void setSender(int sender) {
-        this.sender = sender;
-    }
-
-    public int getSender() {
-        return sender;
-    }
-
-    public int getRecipient() {
-        return recipient;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public long getSum() {
-        return sum;
-    }
-
     public TransferEntity() {
     }
 
@@ -58,11 +26,43 @@ public class TransferEntity extends BasicEntity {
         super(objId, owner, name, date, type);
     }
 
-    public TransferEntity(Integer owner, String name, Date date, String type, int recipient, String operation, long sum) {
+    public TransferEntity(Integer owner, int sender, String name, Date date, String type, int recipient, String operation, long sum) {
         super(owner, name, date, type);
-        this.sender = owner;
+        this.sender = sender;
         this.recipient = recipient;
         this.operation = operation;
+        this.sum = sum;
+    }
+
+    public int getSender() {
+        return sender;
+    }
+
+    public void setSender(int sender) {
+        this.sender = sender;
+    }
+
+    public int getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(int recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public long getSum() {
+        return sum;
+    }
+
+    public void setSum(long sum) {
         this.sum = sum;
     }
 }

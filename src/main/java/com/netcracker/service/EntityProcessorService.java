@@ -115,6 +115,10 @@ public class EntityProcessorService {
 
     public <T extends BasicEntity> T getEntityByNameAndType(Class<T> clazz, String name) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
         ObjectDto objectDtoList = objectRepository.getByNameAndType(name, clazz.getSimpleName().toLowerCase());
+
+        if (objectDtoList == null)
+            return null;
+
         List<ParameterDto> parameterDtoList = parameterRepository.findByObjId(objectDtoList.getObjId());
 
         if (objectDtoList != null && parameterDtoList != null) {

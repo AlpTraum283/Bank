@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -26,10 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/*").authenticated()
-                .antMatchers(HttpMethod.GET, "/account/*", "/account/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/transfer/*").authenticated()
-                .antMatchers(HttpMethod.POST, "/transfer").authenticated()
+                .antMatchers( "/user**").authenticated()
+                .antMatchers( "/account/**").authenticated()
+                .antMatchers( "/transfer/**").authenticated()
+                .antMatchers( "/request/**").authenticated()
+                .antMatchers( "/details/**").authenticated()
+
+
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

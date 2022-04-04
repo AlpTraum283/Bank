@@ -1,20 +1,19 @@
 package com.netcracker.model.dto.rest;
 
 import com.google.gson.Gson;
-import com.netcracker.model.entity.AccountEntity;
+import com.netcracker.model.entity.TransferRequestEntity;
 import com.netcracker.model.entity.UserEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class UserEntityResponseDto {
+public class UserRequestsResponseDto {
     private UserEntity user;
 
-    private List<AccountEntity> accounts;
+    private List<TransferRequestEntity> requests;
 
-    public UserEntityResponseDto(UserEntity user, List<AccountEntity> accounts) {
+    public UserRequestsResponseDto(UserEntity user, List<TransferRequestEntity> requests) {
         this.user = user;
-        this.accounts = accounts;
+        this.requests = requests;
     }
 
     public UserEntity getUser() {
@@ -25,15 +24,14 @@ public class UserEntityResponseDto {
         this.user = user;
     }
 
-    public List<AccountEntity> getAccounts() {
-        return accounts;
+    public List<TransferRequestEntity> getRequests() {
+        return requests;
     }
 
-    public void setAccounts(List<AccountEntity> accounts) {
-        this.accounts = accounts;
+    public void setRequests(List<TransferRequestEntity> requests) {
+        this.requests = requests;
     }
 
-    @Override
     public String toString() {
         Gson gson = new Gson();
 

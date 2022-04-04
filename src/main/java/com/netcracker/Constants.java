@@ -1,7 +1,10 @@
 package com.netcracker;
 
-public class Constants {
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
+public class Constants {
+    public static final String jwtSecret = new String(Base64.getEncoder().encode("secret".getBytes(StandardCharsets.UTF_8)));
     public static final int BALANCE_ATTRIBUTE_ID = 1;
     public static final int DRAFT_ATTRIBUTE_ID = 2;
     public static final int PASSWORD_ATTRIBUTE_ID = 3;
