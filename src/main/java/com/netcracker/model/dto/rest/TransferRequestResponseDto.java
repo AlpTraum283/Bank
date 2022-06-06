@@ -5,17 +5,17 @@ import com.google.gson.Gson;
 import static com.netcracker.Constants.TRANSACTION_STATUS_NEW;
 
 public class TransferRequestResponseDto {
-    private int transactionId;
+    private Integer transactionId;
 
     private String status = TRANSACTION_STATUS_NEW;
 
     private String message;
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -38,16 +38,16 @@ public class TransferRequestResponseDto {
     public TransferRequestResponseDto() {
     }
 
-    public TransferRequestResponseDto(int transactionId) {
+    public TransferRequestResponseDto(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
-    public TransferRequestResponseDto(int transactionId, String status) {
+    public TransferRequestResponseDto(Integer transactionId, String status) {
         this.transactionId = transactionId;
         this.status = status;
     }
 
-    public TransferRequestResponseDto(int transactionId, String status, String message) {
+    public TransferRequestResponseDto(Integer transactionId, String status, String message) {
         this.transactionId = transactionId;
         this.status = status;
         this.message = message;

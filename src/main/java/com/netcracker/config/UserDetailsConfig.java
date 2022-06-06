@@ -14,11 +14,28 @@ public class UserDetailsConfig implements UserDetails {
 
     private String password;
     private String userName;
+    private String userId;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
+
+    public static UserDetailsConfig convertUserEntityToUserDetailsConfig(UserEntity userEntity) {
+        UserDetailsConfig userDetailsConfig = new UserDetailsConfig();
+        userDetailsConfig.password = userEntity.getPassword();
+        userDetailsConfig.userName = userEntity.getName();
+        userDetailsConfig.userId = String.valueOf(userEntity.getObjId());
+        userDetailsConfig.grantedAuthorities = Collections.singletonList(
+                new SimpleGrantedAuthority("USER")
+        );
+        return userDetailsConfig;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return grantedAuthorities;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     @Override
@@ -49,15 +66,5 @@ public class UserDetailsConfig implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public static UserDetailsConfig convertUserEntityToUserDetailsConfig(UserEntity userEntity) {
-        UserDetailsConfig userDetailsConfig = new UserDetailsConfig();
-        userDetailsConfig.password = userEntity.getPassword();
-        userDetailsConfig.userName = userEntity.getName();
-        userDetailsConfig.grantedAuthorities = Collections.singletonList(
-                new SimpleGrantedAuthority("USER")
-        );
-        return userDetailsConfig;
     }
 }

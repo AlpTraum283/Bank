@@ -1,5 +1,6 @@
 package com.netcracker.model.entity;
 
+import com.google.gson.Gson;
 import com.netcracker.annotation.Attribute;
 
 
@@ -56,12 +57,9 @@ public class AccountEntity extends BasicEntity{
 
     @Override
     public String toString() {
-        return "AccountEntity{" +
-                super.toString() +
-                ", currency='" + currency + '\'' +
-                ", balance=" + balance +
-                ", draft=" + draft +
-                '}';
+        Gson gson = new Gson();
+
+        return gson.toJson(this);
     }
     public String getInfo(){
         return "{\"id\": \"" + this.getObjId() +

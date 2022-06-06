@@ -139,10 +139,9 @@ public class EntityProcessorService {
                     int attrValue = attribute.value();
 
                     for (ParameterDto parameterDto : parameterDtoList) {
-//                        System.out.println("Parameter = " + parameter);
 
                         if (attrValue == parameterDto.getAttrId()) {
-//                            System.out.println("Equal field = " + field.getType().getSimpleName());
+
                             switch (field.getType().getSimpleName()) {
                                 case "long":
                                     field.setLong(obj, Long.valueOf(parameterDto.getValue()));
@@ -158,7 +157,7 @@ public class EntityProcessorService {
                     }
                 }
             }
-//            System.out.println(obj.toString());
+
             return obj;
         } else {
             System.err.println("Object does not found. Type = " + clazz.getSimpleName() + ", name = " + name);

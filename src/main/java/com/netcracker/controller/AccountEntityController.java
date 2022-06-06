@@ -4,14 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.config.JwtProvider;
+import com.netcracker.config.UserDetailsConfig;
 import com.netcracker.model.dto.rest.AccountEntityResponseDto;
 import com.netcracker.model.entity.AccountEntity;
 import com.netcracker.model.entity.TransferEntity;
 import com.netcracker.service.AccountEntityService;
 import com.netcracker.service.EntityProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +33,12 @@ public class AccountEntityController {
     @GetMapping("/account/{id}")
     public ResponseEntity getAccountById(@PathVariable("id") Integer id, HttpServletRequest request) throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException, JsonProcessingException {
 
-//        todo: get userId from token here
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
-        Integer userId = Integer.valueOf(new JwtProvider().getLoginFromToken(token));
+        Integer userId = Integer.parseInt(
+                ((UserDetailsConfig) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+                ).getUserId());
 
         AccountEntity accountEntity = entityProcessorService.getEntityByIdAndType(AccountEntity.class, id);
         if (accountEntity == null)
@@ -43,10 +47,7 @@ public class AccountEntityController {
             return ResponseEntity.status(401).body("No access to account with id " + id);
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObject = mapper.readTree(accountEntity.getInfo());
-
-        return ResponseEntity.ok().body(jsonObject);
+        return ResponseEntity.ok().body(accountEntity.toString());
     }
 
 
@@ -62,8 +63,12 @@ public class AccountEntityController {
         Date startDate = java.sql.Date.valueOf(LocalDate.parse(startDateParam, DateTimeFormatter.BASIC_ISO_DATE));
         Date endDate = java.sql.Date.valueOf(LocalDate.parse(endDateParam, DateTimeFormatter.BASIC_ISO_DATE));
 
-        String token = header.substring(7);
-        Integer userId = Integer.valueOf(new JwtProvider().getLoginFromToken(token));
+        Integer userId = Integer.parseInt(
+                ((UserDetailsConfig) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+                ).getUserId());
 
 //        todo: получаем список транзакций по id аккаунта
         List<TransferEntity> transferEntityList = accountEntityService.getTransferListByAccountId(id);
